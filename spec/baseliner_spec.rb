@@ -2,10 +2,10 @@
 
 RSpec.describe Baseliner do
   it "has a version number" do
-    expect(Baseliner::VERSION).not_to be nil
+    expect(Baseliner::VERSION).not_to be_nil
   end
 
   it "does something useful" do
-    expect(false).to eq(true)
+    expect(false).to be(true)
   end
 end
