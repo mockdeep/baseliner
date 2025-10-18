@@ -2,9 +2,8 @@
 
 module Baseliner::Run
   class << self
-    def call(args)
-      puts "Baseliner version #{Baseliner::VERSION}"
-      puts "Arguments: #{args.join(", ")}"
+    def call(_args)
+      Baseliner::Checks::RSpecCoverage.call
     end
   end
 end
