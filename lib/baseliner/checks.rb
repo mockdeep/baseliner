@@ -3,4 +3,4 @@
 module Baseliner::Checks
 end
 
-require_relative "checks/rspec_coverage"
+require_relative "checks/simple_cov"

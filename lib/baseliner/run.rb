@@ -9,7 +9,7 @@ module Baseliner::Run
       when "run_global"
         Baseliner::RunGlobal.call
       when "run"
-        Baseliner::Checks::RSpecCoverage.call
+        Baseliner::Checks::SimpleCov.call
       else
         abort("Unknown command: #{args.first.inspect}")
       end

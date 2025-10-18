@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
-module Baseliner::Checks::RSpecCoverage
+module Baseliner::Checks::SimpleCov
   class << self
     def call
       `rspec spec 2>&1`
       contents = File.read("coverage/index.html")
       document = Capybara.string(contents)
-      puts "RSpec Coverage: #{lines_covered(document)} lines covered, " \
+      puts "Ruby Coverage: #{lines_covered(document)} lines covered, " \
            "#{branches_covered(document)} branches covered"
     end
 

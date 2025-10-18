@@ -10,7 +10,7 @@ module Baseliner::RunGlobal
       end
 
       paths.each do |path|
-        Dir.chdir(path) { Baseliner::Checks::RSpecCoverage.call }
+        Dir.chdir(path) { Baseliner::Checks::SimpleCov.call }
       end
     end
   end
