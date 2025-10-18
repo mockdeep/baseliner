@@ -2,8 +2,17 @@
 
 module Baseliner::Run
   class << self
-    def call(_args)
-      Baseliner::Checks::RSpecCoverage.call
+    def call(args)
+      case args.first
+      when "add_project"
+        Baseliner.add_project
+      when "run_global"
+        Baseliner::RunGlobal.call
+      when "run"
+        Baseliner::Checks::RSpecCoverage.call
+      else
+        abort("Unknown command: #{args.first.inspect}")
+      end
     end
   end
 end
