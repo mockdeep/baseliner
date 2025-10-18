@@ -10,7 +10,7 @@ module Baseliner::RunGlobal
       end
 
       paths.each do |path|
-        Dir.chdir(path) { Baseliner::Checks::SimpleCov.call }
+        Dir.chdir(path) { puts Baseliner::Checks::SimpleCov.call }
       end
     end
   end

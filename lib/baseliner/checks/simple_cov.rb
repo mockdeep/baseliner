@@ -3,11 +3,16 @@
 module Baseliner::Checks::SimpleCov
   class << self
     def call
-      `rspec spec 2>&1`
+      FileUtils.remove_entry_secure("./coverage/")
+      run_id = `gh run list -b main --json databaseId -L 1 -q .[].databaseId`
+      messages = `gh run download #{run_id.strip} -n coverage -D coverage`
       contents = File.read("coverage/index.html")
       document = Capybara.string(contents)
-      puts "Ruby Coverage: #{lines_covered(document)} lines covered, " \
-           "#{branches_covered(document)} branches covered"
+      "Ruby Coverage: #{lines_covered(document)} lines covered, " \
+        "#{branches_covered(document)} branches covered"
+    rescue StandardError
+      puts messages if ENV["DEBUG"]
+      "No coverage data found."
     end
 
     private

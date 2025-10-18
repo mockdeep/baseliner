@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 require "capybara"
+require "fileutils"
+require "open3"
 require "yaml"
 
 require_relative "baseliner/version"
