@@ -2,6 +2,7 @@
 
 require "capybara"
 require "fileutils"
+require "io/console"
 require "open3"
 require "yaml"
 

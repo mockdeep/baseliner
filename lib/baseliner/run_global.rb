@@ -2,6 +2,8 @@
 
 module Baseliner::RunGlobal
   class << self
+    CHECKS = [Baseliner::Checks::SimpleCov].freeze
+
     def call
       paths = Baseliner.registered_paths
 
@@ -9,8 +11,12 @@ module Baseliner::RunGlobal
         abort("No registered projects found. Please add a project first.")
       end
 
-      paths.each do |path|
-        Dir.chdir(path) { puts Baseliner::Checks::SimpleCov.call }
+      _, columns = IO.console.winsize
+      CHECKS.each do |check|
+        puts " #{check.name} ".center(columns, "=")
+        paths.each do |path|
+          Dir.chdir(path) { puts check.call }
+        end
       end
     end
   end
