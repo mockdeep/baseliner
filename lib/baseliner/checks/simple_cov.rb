@@ -2,18 +2,19 @@
 
 module Baseliner::Checks::SimpleCov
   class << self
-    include Baseliner::Integrations
+    Github = Baseliner::Integrations::Github
 
-    def call
-      FileUtils.remove_entry_secure("./coverage/")
-      run_id = Github.latest_build_id
-      Github.download_artifact(run_id, "coverage")
+    def call(path:)
+      FileUtils.rm_rf(File.join(path, "coverage"))
+      run_id = Github.latest_build_id(path:)
+      Github.download_artifact(path:, run_id:, name: "coverage")
 
-      contents = File.read("coverage/index.html")
+      contents = File.read(File.join(path, "coverage/index.html"))
       document = Capybara.string(contents)
       "Ruby Coverage: #{lines_covered(document)} lines covered, " \
         "#{branches_covered(document)} branches covered"
-    rescue StandardError
+    rescue StandardError => e
+      puts e.message if ENV["DEBUG"]
       "No coverage data found."
     end
 

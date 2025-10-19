@@ -2,8 +2,8 @@
 
 module Baseliner::Helpers
   # run command and raise error on failure
-  def run_or_raise(command)
-    stdout, stderr, status = Open3.capture3(command)
+  def run_or_raise(command, path:)
+    stdout, stderr, status = Open3.capture3(command, { chdir: path })
 
     unless status.success?
       puts(stderr) if ENV["DEBUG"]

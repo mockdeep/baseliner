@@ -9,7 +9,7 @@ module Baseliner::Run
       when "run_global"
         Baseliner::RunGlobal.call
       when "run"
-        puts Baseliner::Checks::SimpleCov.call
+        puts Baseliner::Checks::SimpleCov.call(path: Dir.pwd)
       else
         abort("Unknown command: #{args.first.inspect}")
       end

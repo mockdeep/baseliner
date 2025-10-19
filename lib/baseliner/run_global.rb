@@ -14,9 +14,10 @@ module Baseliner::RunGlobal
       _, columns = IO.console.winsize
       CHECKS.each do |check|
         puts " #{check.name} ".center(columns, "=")
-        paths.each do |path|
-          Dir.chdir(path) { puts check.call }
-        end
+
+        threads = paths.map { |path| Thread.new { check.call(path:) } }
+
+        threads.each { |thread| puts thread.value }
       end
     end
   end
