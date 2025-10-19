@@ -30,6 +30,9 @@ module Baseliner
   end
 end
 
+require_relative "baseliner/helpers"
+require_relative "baseliner/integrations"
+
 require_relative "baseliner/checks"
 require_relative "baseliner/run"
 require_relative "baseliner/run_global"
