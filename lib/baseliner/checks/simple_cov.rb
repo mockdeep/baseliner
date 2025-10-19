@@ -3,6 +3,7 @@
 module Baseliner::Checks::SimpleCov
   class << self
     Github = Baseliner::Integrations::Github
+    include Baseliner::Colors
 
     def call(path:)
       FileUtils.rm_rf(File.join(path, "coverage"))
@@ -11,11 +12,11 @@ module Baseliner::Checks::SimpleCov
 
       contents = File.read(File.join(path, "coverage/index.html"))
       document = Capybara.string(contents)
-      "Ruby Coverage: #{lines_covered(document)} lines covered, " \
-        "#{branches_covered(document)} branches covered"
+      "Lines: #{color_percent(lines_covered(document))}, " \
+        "Branches: #{color_percent(branches_covered(document))}"
     rescue StandardError => e
       puts e.message if ENV["DEBUG"]
-      "No coverage data found."
+      red("No coverage data found.")
     end
 
     private

@@ -2,7 +2,6 @@
 
 require "capybara"
 require "fileutils"
-require "io/console"
 require "open3"
 require "yaml"
 
@@ -31,6 +30,7 @@ module Baseliner
   end
 end
 
+require_relative "baseliner/colors"
 require_relative "baseliner/helpers"
 require_relative "baseliner/integrations"
 
