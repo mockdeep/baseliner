@@ -6,6 +6,7 @@ module Baseliner::RunGlobal
 
     CHECKS = [
       Baseliner::Checks::SimpleCov,
+      Baseliner::Checks::BundleOutdated,
       Baseliner::Checks::RubocopTodos,
     ].freeze
 

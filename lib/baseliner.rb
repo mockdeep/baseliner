@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require "active_support/all"
 require "capybara"
 require "fileutils"
 require "open3"

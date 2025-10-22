@@ -33,6 +33,16 @@ module Baseliner::Colors
     "\e[95m#{text}\e[0m"
   end
 
+  def color_number(number)
+    if number.zero?
+      green(number)
+    elsif number <= 5
+      yellow(number)
+    else
+      red(number)
+    end
+  end
+
   def color_percent(text)
     if Float(text.chomp("%")) == 100.0
       green(text)

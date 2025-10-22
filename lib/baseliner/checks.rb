@@ -3,5 +3,6 @@
 module Baseliner::Checks
 end
 
+require_relative "checks/bundle_outdated"
 require_relative "checks/rubocop_todos"
 require_relative "checks/simple_cov"

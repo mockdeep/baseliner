@@ -18,11 +18,8 @@ module Baseliner::Checks::RubocopTodos
       todos = File.read(todos_path)
       offense_counts = todos.scan(/Offense count: (\d+)/)
       total_offenses = offense_counts.flatten.sum { |num| Integer(num) }
-      if total_offenses.zero?
-        "Cops: #{green(0)}, Offenses: #{green(0)}"
-      else
-        "Cops: #{red(offense_counts.size)}, Offenses #{red(total_offenses)}"
-      end
+      "Cops: #{color_number(offense_counts.size)}, " \
+        "Offenses #{color_number(total_offenses)}"
     end
   end
 end
