@@ -4,7 +4,10 @@ module Baseliner::RunGlobal
   class << self
     include Baseliner::Colors
 
-    CHECKS = [Baseliner::Checks::SimpleCov].freeze
+    CHECKS = [
+      Baseliner::Checks::SimpleCov,
+      Baseliner::Checks::RubocopTodos,
+    ].freeze
 
     def call
       projects = Baseliner.projects
