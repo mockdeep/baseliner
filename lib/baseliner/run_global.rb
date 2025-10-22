@@ -7,18 +7,20 @@ module Baseliner::RunGlobal
     CHECKS = [Baseliner::Checks::SimpleCov].freeze
 
     def call
-      paths = Baseliner.registered_paths
+      projects = Baseliner.projects
 
-      if paths.empty?
+      if projects.empty?
         abort("No registered projects found. Please add a project first.")
       end
 
       CHECKS.each do |check|
-        puts " #{cyan(check.name)} ".center(80, "=")
+        puts center(cyan(check.name))
 
-        threads = paths.map { |path| Thread.new { check.call(path:) } }
+        threads = projects.map { |project| Thread.new { check.call(project:) } }
 
-        threads.each { |thread| puts thread.value }
+        threads.zip(projects).each do |thread, project|
+          puts spread(project.name, thread.value)
+        end
       end
     end
   end

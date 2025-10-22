@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Baseliner::Colors
   def red(text)
     "\e[31m#{text}\e[0m"
@@ -32,12 +34,32 @@ module Baseliner::Colors
   end
 
   def color_percent(text)
-    if text.to_f == 100.0
+    if Float(text.chomp("%")) == 100.0
       green(text)
-    elsif text.to_f >= 75.0
+    elsif Float(text.chomp("%")) >= 75.0
       yellow(text)
     else
       red(text)
     end
+  end
+
+  def center(text)
+    padded_size = display_width + invisible_length(text)
+    " #{text} ".center(padded_size, "=")
+  end
+
+  def spread(left_text, right_text)
+    invisible_count = invisible_length(left_text) + invisible_length(right_text)
+    padded_size = invisible_count + display_width - right_text.length
+
+    "#{left_text.ljust(padded_size)}#{right_text}"
+  end
+
+  def invisible_length(text)
+    text.scan(/\e\[\d+m/).join.length
+  end
+
+  def display_width
+    60
   end
 end

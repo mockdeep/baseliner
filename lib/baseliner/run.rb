@@ -4,8 +4,10 @@ module Baseliner::Run
   class << self
     def call(args)
       case args.first
-      when "add_project"
-        Baseliner.add_project
+      when "register"
+        Baseliner::Register.call
+      when "init"
+        Baseliner::Init.call
       when "run_global"
         Baseliner::RunGlobal.call
       when "run"

@@ -23,9 +23,14 @@ module Baseliner
       config[:paths] ||= []
     end
 
-    def add_project
-      config[:paths] = registered_paths.push(Dir.pwd).uniq.sort
-      save_config
+    def projects
+      @projects ||=
+        registered_paths.map do |path|
+          project_config_path = File.join(path, "baseliner.yml")
+          project_config = YAML.load_file(project_config_path)
+          project_name = project_config.fetch(:project_name)
+          Baseliner::Models::Project.new(name: project_name, path:)
+        end
     end
   end
 end
@@ -35,5 +40,8 @@ require_relative "baseliner/helpers"
 require_relative "baseliner/integrations"
 
 require_relative "baseliner/checks"
+require_relative "baseliner/init"
+require_relative "baseliner/models"
+require_relative "baseliner/register"
 require_relative "baseliner/run"
 require_relative "baseliner/run_global"

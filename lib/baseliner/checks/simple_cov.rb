@@ -2,10 +2,16 @@
 
 module Baseliner::Checks::SimpleCov
   class << self
-    Github = Baseliner::Integrations::Github
     include Baseliner::Colors
 
-    def call(path:)
+    Github = Baseliner::Integrations::Github
+
+    def name
+      "SimpleCov"
+    end
+
+    def call(project:)
+      path = project.path
       FileUtils.rm_rf(File.join(path, "coverage"))
       run_id = Github.latest_build_id(path:)
       Github.download_artifact(path:, run_id:, name: "coverage")
