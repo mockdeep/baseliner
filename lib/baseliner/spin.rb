@@ -7,9 +7,7 @@ module Baseliner::Spin
 
     # Displays a spinner in the terminal while the given thread is alive.
     def call(thread)
-      # spinner = SPINNERS.sample.cycle
       spinners = SPINNERS.map(&:cycle)
-      # puts SPINNERS.to_yaml
 
       while thread.alive?
         # hide cursor, clear line, and print spinner frame
