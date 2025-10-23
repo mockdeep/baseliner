@@ -10,6 +10,8 @@ module Baseliner::Integrations::Github
 
     def download_artifact(path:, run_id:, name:)
       gh_run("download #{run_id.strip} -n #{name} -D #{name}", path:)
+    rescue RuntimeError
+      false
     end
 
     def gh_run(command, path:)

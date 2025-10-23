@@ -14,15 +14,14 @@ module Baseliner::Checks::SimpleCov
       path = project.path
       FileUtils.rm_rf(File.join(path, "coverage"))
       run_id = Github.latest_build_id(path:)
-      Github.download_artifact(path:, run_id:, name: "coverage")
+      unless Github.download_artifact(path:, run_id:, name: "coverage")
+        return red("No coverage data found.")
+      end
 
       contents = File.read(File.join(path, "coverage/index.html"))
       document = Capybara.string(contents)
       "Lines: #{color_percent(lines_covered(document))}, " \
         "Branches: #{color_percent(branches_covered(document))}"
-    rescue StandardError => e
-      puts e.message if ENV["DEBUG"]
-      red("No coverage data found.")
     end
 
     private
