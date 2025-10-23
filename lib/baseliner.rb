@@ -39,6 +39,7 @@ end
 require_relative "baseliner/colors"
 require_relative "baseliner/helpers"
 require_relative "baseliner/integrations"
+require_relative "baseliner/spin"
 
 require_relative "baseliner/checks"
 require_relative "baseliner/init"

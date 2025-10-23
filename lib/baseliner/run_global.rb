@@ -23,6 +23,7 @@ module Baseliner::RunGlobal
         threads = projects.map { |project| Thread.new { check.call(project:) } }
 
         threads.zip(projects).each do |thread, project|
+          Baseliner::Spin.call(thread)
           puts spread(project.name, thread.value)
         end
       end
