@@ -13,11 +13,16 @@ module Baseliner
     CONFIG_PATH = File.join(Dir.home, ".config/baseliner.yml")
 
     def config
-      @config ||= File.exist?(CONFIG_PATH) ? YAML.load_file(CONFIG_PATH) : {}
+      @config ||=
+        if File.exist?(CONFIG_PATH)
+          YAML.load_file(CONFIG_PATH, symbolize_names: true)
+        else
+          {}
+        end
     end
 
     def save_config
-      File.write(CONFIG_PATH, config.to_yaml)
+      File.write(CONFIG_PATH, config.to_yaml(stringify_names: true))
     end
 
     def registered_paths

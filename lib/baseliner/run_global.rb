@@ -4,12 +4,6 @@ module Baseliner::RunGlobal
   class << self
     include Baseliner::Colors
 
-    CHECKS = [
-      Baseliner::Checks::SimpleCov,
-      Baseliner::Checks::BundleOutdated,
-      Baseliner::Checks::RubocopTodos,
-    ].freeze
-
     def call
       projects = Baseliner.projects
 
@@ -18,10 +12,15 @@ module Baseliner::RunGlobal
       end
 
       threads =
-        CHECKS.flat_map do |check|
+        Baseliner::Checks::ALL.flat_map do |check|
+          relevant_projects =
+            projects.select { |project| project.check_enabled?(check) }
+
+          next [] if relevant_projects.none?
+
           [
             Thread.new { center(cyan(check.name)) },
-            *projects.map do |project|
+            *relevant_projects.map do |project|
               Thread.new { spread(project.name, check.call(project:)) }
             end,
           ]

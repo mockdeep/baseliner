@@ -11,12 +11,20 @@ class Baseliner::Models::Project
     File.join(path, "baseliner.yml")
   end
 
-  def project_config
-    YAML.load_file(project_config_path)
+  def config
+    @config ||= YAML.load_file(project_config_path, symbolize_names: true)
   end
 
   def name
-    project_config.fetch(:project_name)
+    config.fetch(:project_name)
+  end
+
+  def check_enabled?(check)
+    checks_config.fetch(check.name.to_sym).fetch(:enabled)
+  end
+
+  def checks_config
+    config.fetch(:checks)
   end
 
   def to_h
