@@ -12,7 +12,7 @@ module Baseliner::Init
 
       checks =
         Baseliner::Checks::ALL.each_with_object({}) do |check, result|
-          result[check.name.to_sym] = { enabled: true }
+          result[check.name] = { enabled: check.applicable?(path: Dir.pwd) }
         end
       config = { project_name:, checks: }
 

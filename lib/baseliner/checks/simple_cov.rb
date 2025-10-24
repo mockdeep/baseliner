@@ -3,11 +3,17 @@
 module Baseliner::Checks::SimpleCov
   class << self
     include Baseliner::Colors
+    include Baseliner::Helpers
 
     Github = Baseliner::Integrations::Github
 
     def name
       "SimpleCov"
+    end
+
+    # Determines if the check is applicable to the given path
+    def applicable?(path:)
+      ruby_project?(path:)
     end
 
     def call(project:)

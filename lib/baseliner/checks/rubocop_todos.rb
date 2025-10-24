@@ -4,10 +4,16 @@
 module Baseliner::Checks::RubocopTodos
   class << self
     include Baseliner::Colors
+    include Baseliner::Helpers
 
     # Returns the name of the check
     def name
       "Rubocop Todos"
+    end
+
+    # Determines if the check is applicable to the given path
+    def applicable?(path:)
+      ruby_project?(path:)
     end
 
     # Performs the check on the given project

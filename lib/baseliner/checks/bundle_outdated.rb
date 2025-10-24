@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Check for outdated gems in a Ruby project using Bundler
 module Baseliner::Checks::BundleOutdated
   class << self
@@ -7,6 +9,11 @@ module Baseliner::Checks::BundleOutdated
     # Returns the name of the check
     def name
       "Bundle Outdated"
+    end
+
+    # Determines if the check is applicable to the given path
+    def applicable?(path:)
+      ruby_project?(path:)
     end
 
     # Performs the check on the given project
