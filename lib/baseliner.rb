@@ -26,12 +26,7 @@ module Baseliner
 
     def projects
       @projects ||=
-        registered_paths.map do |path|
-          project_config_path = File.join(path, "baseliner.yml")
-          project_config = YAML.load_file(project_config_path)
-          project_name = project_config.fetch(:project_name)
-          Baseliner::Models::Project.new(name: project_name, path:)
-        end
+        registered_paths.map { |path| Baseliner::Models::Project.new(path:) }
     end
   end
 end
