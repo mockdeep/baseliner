@@ -17,15 +17,19 @@ module Baseliner::RunGlobal
         abort("No registered projects found. Please add a project first.")
       end
 
-      CHECKS.each do |check|
-        puts center(cyan(check.name))
-
-        threads = projects.map { |project| Thread.new { check.call(project:) } }
-
-        threads.zip(projects).each do |thread, project|
-          Baseliner::Spin.call(thread)
-          puts spread(project.name, thread.value)
+      threads =
+        CHECKS.flat_map do |check|
+          [
+            Thread.new { center(cyan(check.name)) },
+            *projects.map do |project|
+              Thread.new { spread(project.name, check.call(project:)) }
+            end,
+          ]
         end
+
+      threads.each do |thread|
+        Baseliner::Spin.call(thread)
+        puts thread.value
       end
     end
   end
